@@ -70,9 +70,9 @@ function bisseccao(funcao, intervalo, erro=0.01, it_max = 999){
        if(Math.abs(resultado) <= erro) break;
 
        //Vamos analisar o sinal do resultado e substituir o 'a' ou 'b'
-       if(resultado >= 0){ //Se maior ou igual a zero, substitua o 'a'.
+       if(resultado <= 0){ //Se maior ou igual a zero, substitua o 'a'.
         console.log("maior")
-       a = x_linha
+        a = x_linha
        }else{//Se menor que zero, substitua o 'b'.
        console.log("menor")
         b = x_linha 

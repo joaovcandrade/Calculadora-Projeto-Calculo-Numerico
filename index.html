@@ -16,113 +16,195 @@
             <span class="navbar-brand mb-0 h1">Calculadora Zero de Funções</span>
         </div>        
     </nav>
-    <div class="container my-5">
-        <form>
-            
-            <fieldset class="form-group">
-                <div class="form-group row">
-                    <label for="funcao-input" class="col-sm-2 col-form-label">Função</label>
-                    <div class="input-group col-sm-5">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">F(x)=</span>
-                        </div>
-                        <input type="text" class="form-control" id="funcao-input">
+    <div class="container my-5 ">       
+                <div class="row">
+                    <div class="col-8">
+                        <form id="form-entrada">            
+                            <fieldset class="form-group">
+                                <div class="form-group row">
+                                    <label for="funcao-input" class="col-sm-2 col-form-label" >Função</label>
+                                    <div class="input-group col-8">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">f(x)=</span>
+                                        </div>
+                                        <input type="text" class="form-control" id="funcao-input" autocomplete="off" required>
+                                    </div>
+                                </div>
+                
+                                <div class="form-group row">
+                                  <label for="epsilon"  class="col-sm-2 col-form-label">Épsilon</label>
+                                  <div class="input-group col-8">
+                                    <input type="number" name="" id="epsilon" class="form-control" value="0.01" required>
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="iteracoes"  class="col-sm-2 col-form-label">Iterações</label>
+                                    <div class="input-group col-8">
+                                      <input type="number" name="" id="iteracoes" class="form-control" value="30" required>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <legend class="col-form-label col-sm-2 pt-0">Métodos</legend>
+                                    <div class="col-sm-10">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="metodos" id="bisseccao" value="bisseccao"
+                                                checked>
+                                            <label class="form-check-label" for="bisseccao">
+                                                Bissecção
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="metodos" id="newton-raphson"
+                                                value="newton-raphson">
+                                            <label class="form-check-label" for="newton-raphson">
+                                                Newton-Raphson
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                
+                
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary" id="calcular">Calcular</button>
+                                </div>
+                            </div>
+                            
+                        </form>
                     </div>
-                </div>
-
-                <div class="form-group row">
-                  <label for="epsilon"  class="col-sm-2 col-form-label">Épsilon</label>
-                  <div class="input-group col-sm-3">
-                    <input type="number" name="" id="epsilon" class="form-control" value="0.01" >
-                  </div>
-                </div>
-                <div class="form-group row">
-                    <label for="iteracoes"  class="col-sm-2 col-form-label">Máximo de iterações</label>
-                    <div class="input-group col-sm-3">
-                      <input type="number" name="" id="iteracoes" class="form-control" value="30" >
+                    
+                    <div class="col-2">
+                        <small id="help-funcao" class="form-text text-muted" style="display: none;">
+                            <ul class="p-0">
+                                <li>
+                                    A <b>função</b> deve ter somente x (minúsculo) como variável.
+                                </li>
+                                <li>
+                                    A função deve conter explícitamente todos os operadores.
+                                </li>
+                                <li>
+                                    <span>Não digite '9x' | Digite '9*x'</span>
+                                </li>                           
+                            </ul>
+                            
+                          </small>
+                          <small id="help-epsilon" class="form-text text-muted" style="display: none;">
+                            <ul class="p-0">
+                                <li>
+                                    <b>Épsilon</b> é o erro. 
+                                </li>
+                                <li>
+                                    O Épsilon não forçará execuções caso o número de execuções seja atingido.
+                                </li>
+                                <li>
+                                    A entrada deve ser um número.
+                                </li>
+                                <li>
+                                    Posteriormente a vírgula será convertida em ponto.
+                                </li>                        
+                            </ul>
+                            
+                          </small>
+                          <small id="help-iteracoes" class="form-text text-muted" style="display: none;">
+                            <ul class="p-0">
+                                <li>
+                                    O número de <b>iterações</b> é quantidade de vezes que o x_ será iterado
+                                </li>
+                                <li>
+                                    O número de iteração não forçará execuções caso o Épsilon seja atingido
+                                </li>
+                                <li>
+                                    A entrada deve ser um número.
+                                </li>
+                            </ul>
+                             
+                          </small>
                     </div>
-                  </div>
-                  <div class="row">
-                    <legend class="col-form-label col-sm-2 pt-0">Métodos</legend>
-                    <div class="col-sm-10">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="metodos" id="bisseccao" value="bisseccao"
-                                checked>
-                            <label class="form-check-label" for="bisseccao">
-                                Bissecção
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="metodos" id="newton-raphson"
-                                value="newton-raphson">
-                            <label class="form-check-label" for="newton-raphson">
-                                Newton-Raphson
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-
-
-            <div class="form-group row">
-                <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary" id="calcular">Calcular</button>
-                </div>
-            </div>
-        </form>
-
-        <!--Fase 1 bissecção-->
-        <div id="fase1-bisseccao" style="display: none;">
-            <hr>
-            <h6>Fase 1 - Método de Bisseccção</h6>
-            <div class="form-group row">
-                <label for="funcao-input" class="col-sm-2 col-form-label">Intervalo</label>
-                <div class="input-group col-sm-5">
-                    <select class="form-control" id="intervalo"></select>
-                </div>
-               
-            </div> 
-            <div class="form-group row">
-                <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary" id="refinar">Refinar raiz</button>
-                </div>
-            </div>
-            <hr>
-        </div>        
-        <!--Fase 1 newton-->
-        <div id="fase1-newton" style="display: none;">
-            <hr>
-            <h6>Fase 1 - Método de Newton</h6>
-            <div class="form-group row">
-                <label for="intervalo-newton" class="col-sm-2 col-form-label">Intervalos</label>
-                <div class="input-group col-sm-5">
-                    <select class="form-control" id="intervalo-newton"></select>
-                </div>
-               
-            </div> 
-            <div class="form-group row">
-                <label for="chute" class="col-sm-2 col-form-label">Valor inicial</label>
-                <div class="input-group col-sm-3">
-                    <input type="number" id="chute" class="form-control" min="0" max="1">
                 </div>
                 
-               
+                
+            
+            
+
+
+        <!-- card exbir parametros-->
+        <div class="card bg-light" id="card-parametros" style="display:none">
+            <div class="card-header">
+              Parâmetros aplicado
             </div>
-            <div class="form-group row">
-                <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary" id="refinar-newton">Refinar raiz</button>
+            <div class="row ">
+                <div class="col-10">
+                    <div class="card-body" id="card-body-parametros"></div>
+                </div>
+                <div class="col-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-danger ml-auto m-3" id="resetar" style="display: none;">Resetar</button>
                 </div>
             </div>
-            <hr>
-        </div>
+          </div>
+
+        <!--Fase 1 bissecção-->
+        <form id="form-f1-bisseccao">
+            <div id="fase1-bisseccao" style="display: none;">
+                <hr>
+                <h6>Fase 1 - Método de Bisseccção</h6>
+                <div class="form-group row">
+                    <label for="funcao-input" class="col-sm-2 col-form-label">Intervalo</label>
+                    <div class="input-group col-sm-5">
+                        <select multiple class="form-control" id="intervalo" required></select>
+                        <small>A calculadora, por meio do teorema de Bolzano, encontrou estes intervalos onde existem raizes. Selecione um intervalo a qual será aplicado o método selecionado.</small>
+                    </div>
+                   
+                </div> 
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary" id="refinar">Refinar raiz</button>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </form>
+                
+        <!--Fase 1 newton-->
+        <form id="form-f1-newton">
+            <div id="fase1-newton" style="display: none;">
+                <hr>
+                <h6>Fase 1 - Método de Newton</h6>
+                <div class="form-group row">
+                    <label for="intervalo-newton" class="col-sm-2 col-form-label">Intervalos</label>
+                    <div class="input-group col-sm-5">
+                        <select multiple class="form-control" id="intervalo-newton" required></select>
+                        <small><b>Selecione um intervalo</b> a qual será aplicado o método selecionado.  <br>  A calculadora, por meio do teorema de Bolzano, encontrou estes intervalos onde existem raizes.</small>
+                    </div>
+                   
+                </div> 
+                <div class="form-group row">
+                    <label for="chute" class="col-sm-2 col-form-label">Valor inicial</label>
+                    
+                    <div class="input-group col-sm-3">
+                        <input type="number" id="chute" class="form-control" min="0" max="1" step="0.01" required>
+                        <small><b>Por padrão, este campo é preenchido com a média do intervalo selecionada anteriormente</b> <br> Com base no intervalo selecionado, digite o valor inicial de busca com até duas casa decimais.</small>
+                    </div>
+                    
+                   
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary" id="refinar-newton">Refinar raiz</button>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </form>
+        
 
         <!--Resolução-->
-        <div class="accordion" id="accordion" style="display: none;">
+        <div class="accordion mt-2" id="accordion" style="display: none;">
             <div class="card">
                 <div class="card-header">
                     <h6 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse">
-                     Resolução
+                     Memória das iterações
                     </button>
                   </h6>
                 </div>
@@ -138,10 +220,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-10 my-4">
-                <button type="submit" class="btn btn-warning" id="resetar" style="display: none;">Resetar</button>
-            </div>
+
             
         
        
