@@ -1,6 +1,8 @@
 help_funcao = document.querySelector('#help-funcao')
 help_epsilon = document.querySelector('#help-epsilon')
 help_iteracoes = document.querySelector('#help-iteracoes')
+help_casas_decimais = document.querySelector('#help-casas-decimais')
+
 
 document.querySelector("#resetar").addEventListener('click', ()=>{
     document.querySelector("#resetar").style="display: none"
@@ -61,15 +63,16 @@ function refinarNeewton(){
     document.querySelector("#fase1-newton").style= "display:none"
     document.querySelector("#accordion").style= "display:block"
     chute_inicial = chute.value
-    executarNewton(funcao, chute_inicial, epsilon, max_it)
+    preencher_card_parametros_chute(chute_inicial)
+    executarNewton(funcao, chute_inicial, epsilon, max_it, casas_decimais)
 }
 
 function refinarBisseccao(){
     document.querySelector("#fase1-bisseccao").style= "display:none"
     document.querySelector("#accordion").style= "display:block"
     intervalo = document.querySelector("#intervalo").value.split(',');
-    
-    executarBisseccao(funcao, intervalo, epsilon, max_it)
+    preencher_card_parametros_chute('[' + intervalo + ']')
+    executarBisseccao(funcao, intervalo, epsilon, max_it, casas_decimais)
 }
 
 document.querySelector('#funcao-input').addEventListener('focusin', ()=>{help_funcao.style="display:block"})
@@ -81,6 +84,9 @@ document.querySelector('#epsilon').addEventListener('focusout', ()=>{help_epsilo
 document.querySelector('#iteracoes').addEventListener('focusin', ()=>{help_iteracoes.style="display:block"})
 document.querySelector('#iteracoes').addEventListener('focusout', ()=>{help_iteracoes.style="display:none"})
 
+document.querySelector('#casas-decimais').addEventListener('focusin', ()=>{help_casas_decimais.style="display:block"})
+document.querySelector('#casas-decimais').addEventListener('focusout', ()=>{help_casas_decimais.style="display:none"})
+
 function aplicar(){
     
     document.querySelector("#form-entrada").style="display: none"
@@ -89,10 +95,12 @@ function aplicar(){
 
     funcao = document.querySelector("#funcao-input").value;
     epsilon = document.querySelector("#epsilon").value;
+    epsilon = (10**-epsilon).toFixed(epsilon)
     max_it = document.querySelector("#iteracoes").value;
+    casas_decimais = document.querySelector("#casas-decimais").value;
     metodo = document.querySelector("input[name='metodos']:checked").value;
     
-    preencher_card_parametros(funcao, epsilon, max_it, metodo)
+    preencher_card_parametros(funcao, epsilon, max_it, metodo, casas_decimais)
     document.querySelector("#card-parametros").style="display: block"
 
     intervalos = restringir(funcao)
@@ -125,9 +133,9 @@ function aplicar(){
     }
 }
 
-function executarBisseccao(funcao, intervalo, epsilon, max_it){
+function executarBisseccao(funcao, intervalo, epsilon, max_it, casas_decimais){
 
-    retorno = bisseccao(funcao, intervalo, epsilon, max_it)
+    retorno = bisseccao(funcao, intervalo, epsilon, max_it, casas_decimais)
     console.log(retorno[1])
 
     tableHead = document.querySelector("#table-head")
@@ -160,9 +168,9 @@ function executarBisseccao(funcao, intervalo, epsilon, max_it){
 
 }
 
-function executarNewton(funcao, pos_inicial, erro, it_max){
+function executarNewton(funcao, pos_inicial, erro, it_max, casas_decimais){
 
-    retorno = newton(funcao, pos_inicial, erro, it_max)
+    retorno = newton(funcao, pos_inicial, erro, it_max, casas_decimais)
     console.log(retorno[1])
 
     tableHead = document.querySelector("#table-head")
@@ -192,7 +200,7 @@ function executarNewton(funcao, pos_inicial, erro, it_max){
 
 }
 
-function preencher_card_parametros(funcao, epsilon, max_it, metodo){
+function preencher_card_parametros(funcao, epsilon, max_it, metodo, casas_decimais){
 
     card_body =  document.querySelector("#card-body-parametros")
     card_body.innerHTML = ''
@@ -206,6 +214,10 @@ function preencher_card_parametros(funcao, epsilon, max_it, metodo){
     card_body.appendChild(p)
 
     p = document.createElement('p');
+    p.innerHTML = "Casas decimais: " + casas_decimais
+    card_body.appendChild(p)
+
+    p = document.createElement('p');
     p.innerHTML = "Máximo de iterações: " + max_it
     card_body.appendChild(p)
 
@@ -213,4 +225,11 @@ function preencher_card_parametros(funcao, epsilon, max_it, metodo){
     p.innerHTML = "Método: " + metodo
     card_body.appendChild(p)
 
+}
+
+function preencher_card_parametros_chute(val){
+    card_body =  document.querySelector("#card-body-parametros")
+    p = document.createElement('p');
+    p.innerHTML = "Intervalo/Chute inicial: " + val
+    card_body.appendChild(p)
 }

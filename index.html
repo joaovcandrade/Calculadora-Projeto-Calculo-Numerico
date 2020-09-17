@@ -34,9 +34,19 @@
                                 <div class="form-group row">
                                   <label for="epsilon"  class="col-sm-2 col-form-label">Épsilon</label>
                                   <div class="input-group col-8">
-                                    <input type="number" name="" id="epsilon" class="form-control" value="0.01" required>
+                                      <div class="input-group-prepend"><span class="input-group-text">
+                                        10<sup>-</sup>
+                                      </span>
+                                    </div>
+                                    <input type="number" name="" id="epsilon" class="form-control" value="1" required min= '1' step="1">
                                   </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="casas-decimais"  class="col-sm-2 col-form-label">Casas decimais</label>
+                                    <div class="input-group col-8">
+                                      <input type="number" name="" id="casas-decimais" class="form-control" value="4" required min= '1' max='100' step="1">
+                                    </div>
+                                  </div>
                                 <div class="form-group row">
                                     <label for="iteracoes"  class="col-sm-2 col-form-label">Iterações</label>
                                     <div class="input-group col-8">
@@ -98,11 +108,19 @@
                                     O Épsilon não forçará execuções caso o número de execuções seja atingido.
                                 </li>
                                 <li>
-                                    A entrada deve ser um número.
+                                    A entrada deve ser um número inteiro positivo.
+                                </li>                       
+                            </ul>
+                            
+                          </small>
+                          <small id="help-casas-decimais" class="form-text text-muted" style="display: none;">
+                            <ul class="p-0">
+                                <li>
+                                    <b>Casas decimais</b> é quantidade de casas que serão consideradas no cálculo. 
                                 </li>
                                 <li>
-                                    Posteriormente a vírgula será convertida em ponto.
-                                </li>                        
+                                    A entrada deve ser um número inteiro positivo entre 0 e 100.
+                                </li>                       
                             </ul>
                             
                           </small>
@@ -135,10 +153,10 @@
             </div>
             <div class="row ">
                 <div class="col-10">
-                    <div class="card-body" id="card-body-parametros"></div>
+                    <div class="card-body pb-2" id="card-body-parametros"></div>
                 </div>
-                <div class="col-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-danger ml-auto m-3" id="resetar" style="display: none;">Resetar</button>
+                <div class="col-12 col-lg-2 d-flex align-items-md-start align-items-lg-end">
+                    <button type="submit" class="btn btn-danger mb-3 ml-3 mt-0" id="resetar" style="display: none;">Resetar</button>
                 </div>
             </div>
           </div>
@@ -204,13 +222,13 @@
                 <div class="card-header">
                     <h6 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse">
-                     Memória das iterações
+                     Tabela de iterações
                     </button>
                   </h6>
                 </div>
                 <div class="collapse" id="collapse" data-parent="#accordion">
-                    <div class="card-body" id="collapse-body">
-                        <table class="table">
+                    <div class="card-body justify-content-center" id="collapse-body">
+                        <table class="table  table-hover">
                             <thead id="table-head">
                             </thead>
                             <tbody id="table-body">
