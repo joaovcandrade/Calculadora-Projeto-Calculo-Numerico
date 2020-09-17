@@ -150,3 +150,5 @@ function newton(funcao, pos_inicial, erro, it_max = 999, casas_decimais){
     return [x_linha, memoria]
 
 }
+
+

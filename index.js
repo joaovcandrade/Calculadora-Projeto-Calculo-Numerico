@@ -14,6 +14,7 @@ document.querySelector("#resetar").addEventListener('click', ()=>{
     document.querySelector("#calcular").style="display: block"
     document.querySelector("#form-entrada").style="display: block"
     document.querySelector("#card-parametros").style="display: none"
+    document.querySelector("#plot").style="display: none"
 })
 
 document.querySelector('#calcular').addEventListener('click', (e)=>{
@@ -33,6 +34,7 @@ document.querySelector('#refinar').addEventListener('click', (e)=>{
     e.preventDefault()
     form_entrada =document.querySelector("#form-f1-bisseccao")
     if(form_entrada.checkValidity()){
+       
         refinarBisseccao()
     }else{
         form_entrada.reportValidity()
@@ -56,10 +58,18 @@ document.querySelector("#intervalo-newton").addEventListener('change', (e)=>{
     chute = document.querySelector("#chute")
     chute.min = intrv[0]
     chute.max =  intrv[1]
+    desenhar(funcao, intrv[0], intrv[1])
     chute.value = (parseFloat(intrv[0])+parseFloat(intrv[1]))/2
 })
 
+document.querySelector("#intervalo").addEventListener('change', (e)=>{
+    intrv = document.querySelector("#intervalo").value.split(',')
+    desenhar(funcao, intrv[0], intrv[1])
+    
+})
+
 function refinarNeewton(){
+    document.querySelector("#plot").style="display:none";
     document.querySelector("#fase1-newton").style= "display:none"
     document.querySelector("#accordion").style= "display:block"
     chute_inicial = chute.value
@@ -68,6 +78,7 @@ function refinarNeewton(){
 }
 
 function refinarBisseccao(){
+    document.querySelector("#plot").style="display:none";
     document.querySelector("#fase1-bisseccao").style= "display:none"
     document.querySelector("#accordion").style= "display:block"
     intervalo = document.querySelector("#intervalo").value.split(',');
@@ -99,12 +110,15 @@ function aplicar(){
     max_it = document.querySelector("#iteracoes").value;
     casas_decimais = document.querySelector("#casas-decimais").value;
     metodo = document.querySelector("input[name='metodos']:checked").value;
+
+    desenhar(funcao, -10, 10)
     
     preencher_card_parametros(funcao, epsilon, max_it, metodo, casas_decimais)
     document.querySelector("#card-parametros").style="display: block"
 
     intervalos = restringir(funcao)
-    console.log(intervalos)
+    
+    
     if(metodo ===  'bisseccao'){
         document.querySelector("#fase1-bisseccao").style= "display:block"
         document.querySelector("#intervalo").innerHTML = ''
@@ -233,3 +247,38 @@ function preencher_card_parametros_chute(val){
     p.innerHTML = "Intervalo/Chute inicial: " + val
     card_body.appendChild(p)
 }
+
+//Código de math.js (apenas para desenhar o gráfico)
+function desenhar(expression, r1, r2) {
+    document.querySelector("#plot").style="display:block";
+    try {
+      // compile the expression once
+      const expr = math.compile(expression)
+
+      // evaluate the expression repeatedly for different values of x
+      const xValues = math.range(r1, r2, 0.1).toArray()
+      const yValues = xValues.map(function (x) {
+        return expr.evaluate({x: x})
+      })
+
+      // render the plot using plotly
+      const trace1 = {
+        x: xValues,
+        y: yValues,
+        type: 'scatter'
+      }
+      var layout = { 
+        title: 'Gráfico da função',
+        font: {size: 18}
+      }
+      var config = {responsive: true}
+
+      const data = [trace1]
+
+      Plotly.newPlot('plot', data, layout, config)
+    }
+    catch (err) {
+      console.error(err)
+    }
+  }
+
