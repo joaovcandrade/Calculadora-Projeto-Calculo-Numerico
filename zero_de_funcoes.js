@@ -44,6 +44,18 @@ function bisseccao(funcao, intervalo, erro=0.01, it_max = 999, casas_decimais){
     b = parseFloat(intervalo[1])
     b = parseFloat(b.toFixed(casas_decimais)) //arredondamento casas decimais
 
+    x_substituido_a = funcao.replaceAll('x', '('+a+')')
+    x_substituido_b = funcao.replaceAll('x', '('+b+')')
+
+    //Se for decrescente inverte a/b
+    if(math.evaluate(x_substituido_a) > math.evaluate(x_substituido_b)){
+        let x = a
+        a = b
+        b = x
+    }
+
+    
+
    
     //--beep 👨‍🏭 beep, hora de executar.--//    
     contador = 0
@@ -52,9 +64,9 @@ function bisseccao(funcao, intervalo, erro=0.01, it_max = 999, casas_decimais){
         contador +=1
         
         //calcula o x linha
-        x_linha = (a+b)/2
-        x_linha = parseFloat(x_linha.toFixed(casas_decimais)) //arredondamento casas decimais
-        
+        x_linha = parseFloat((a+b)/2)
+        x_linha = x_linha.toFixed(casas_decimais) //arredondamento casas decimais
+        x_linha = parseFloat(x_linha)
 
         //substituir o x na função para o valor x linha
        x_substituido = funcao.replaceAll('x', '('+x_linha+')')
@@ -71,18 +83,18 @@ function bisseccao(funcao, intervalo, erro=0.01, it_max = 999, casas_decimais){
        memoria.push(mini_memoria)
        //======Pronto, salvo======//
        
-
+       
        //verifica se o resultado (em módulo) é menor que o erro, se sim pare 🤚🛑🙅‍♀️🙅‍♂️.
-        //console.log(Math.abs(resultado))
-        console.log(Math.abs(resultado), erro)
+        //console.log(Math.abs(resultado))        
        if(Math.abs(resultado) <= erro) break;
 
+       
        //Vamos analisar o sinal do resultado e substituir o 'a' ou 'b'
-       if(resultado <= 0){ //Se maior ou igual a zero, substitua o 'a'.
-        console.log("maior")
+       if(resultado < 0){ //Se maior ou igual a zero, substitua o 'a'.
+        //console.log("maior")
         a = x_linha
        }else{//Se menor que zero, substitua o 'b'.
-       console.log("menor")
+       //console.log("menor")
         b = x_linha 
        }
 
