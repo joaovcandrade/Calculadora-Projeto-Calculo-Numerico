@@ -15,6 +15,7 @@ document.querySelector("#resetar").addEventListener('click', ()=>{
     document.querySelector("#form-entrada").style="display: block"
     document.querySelector("#card-parametros").style="display: none"
     document.querySelector("#plot").style="display: none"
+    document.querySelector("#limpar-plot").style="display:none";
 })
 
 document.querySelector('#calcular').addEventListener('click', (e)=>{
@@ -70,6 +71,7 @@ document.querySelector("#intervalo").addEventListener('change', (e)=>{
 
 function refinarNeewton(){
     document.querySelector("#plot").style="display:none";
+    document.querySelector("#limpar-plot").style="display:none";
     document.querySelector("#fase1-newton").style= "display:none"
     document.querySelector("#accordion").style= "display:block"
     chute_inicial = chute.value
@@ -79,6 +81,7 @@ function refinarNeewton(){
 
 function refinarBisseccao(){
     document.querySelector("#plot").style="display:none";
+    document.querySelector("#limpar-plot").style="display:none";
     document.querySelector("#fase1-bisseccao").style= "display:none"
     document.querySelector("#accordion").style= "display:block"
     intervalo = document.querySelector("#intervalo").value.split(',');
@@ -248,9 +251,14 @@ function preencher_card_parametros_chute(val){
     card_body.appendChild(p)
 }
 
+document.querySelector("#limpar-plot").addEventListener('click',()=>{
+    desenhar(funcao, -10, 10)
+})
+
 //Código de math.js (apenas para desenhar o gráfico)
 function desenhar(expression, r1, r2) {
     document.querySelector("#plot").style="display:block";
+    document.querySelector("#limpar-plot").style="display:block";
     try {
       // compile the expression once
       const expr = math.compile(expression)
