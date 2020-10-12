@@ -1,3 +1,7 @@
+math.config({
+    number: 'number' // Default type of number: 
+                     // 'number' (default), 'BigNumber', or 'Fraction'
+  })
 function restringir(funcao){
     
     //Lista de resultados
