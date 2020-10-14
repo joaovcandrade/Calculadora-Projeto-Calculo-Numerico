@@ -19,16 +19,24 @@ document.getElementById("calcular").addEventListener('click', ()=>{
 
     });
     console.log(a,b)
-    metodo = eliminacao_de_gauss(a, b)
+    opt = document.querySelector('input[name="exampleRadios"]:checked').value
+    if(opt ==  'gauss'){
+        console.log('gauss')
+        metodo = eliminacao_de_gauss(a, b)
+    }else{
+        metodo = fatoracao_lu(a, b)
+    }
+   
     
     resolucaoarea = document.querySelector('#resolucao-area')
     metodo['memoria'].forEach(elemento =>{
         span = document.createElement('span')
-        elemento.forEach(el =>{
+
+                Object.keys(elemento).forEach(el =>{
+                    span.innerHTML += elemento[el] + '<br>'
+                })
             
-                span.innerHTML += `Memória: ${el['memoria']} <br> Evento: ${el['evento']}`
-            
-        })
+
         resolucaoarea.appendChild(span)
         resolucaoarea.appendChild(document.createElement('hr'))
     })

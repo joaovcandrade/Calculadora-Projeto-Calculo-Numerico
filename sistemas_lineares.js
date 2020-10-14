@@ -1,7 +1,10 @@
+
 math.config({
     number: 'Fraction' // Default type of number: 
     // 'number' (default), 'BigNumber', or 'Fraction'
 })
+
+
 
 function fatoracao_lu(A, b) {
     memoria = []
@@ -13,7 +16,7 @@ function fatoracao_lu(A, b) {
     })
 
     matriz_a = A
-    memoria.push([{"evento": 'Matriz A', 'memoria': matriz_a}])
+    memoria.push({"evento": 'Matriz A', 'memoria': matriz_a})
 
     coluna_pivo = 0
     linha_pivo = 0
@@ -37,7 +40,7 @@ function fatoracao_lu(A, b) {
         diagonal += 1
     }
 
-    memoria.push([{"evento": 'crição a matriz L', 'memoria': l}])
+    memoria.push({"evento": 'crição a matriz L', 'memoria': l})
 
 
     for (i = 0; i < matriz_a.length - 1; i++) {
@@ -64,21 +67,21 @@ function fatoracao_lu(A, b) {
             linha_aux = matriz_a[linha_pivo]
             matriz_a[linha_pivo] = matriz_a[linha_maior_elemento]
             matriz_a[linha_maior_elemento] = linha_aux
-            memoria.push([{"evento": 'Pivotamento de linha', 'memoria': matriz_a}])
+            memoria.push({"evento": 'Pivotamento de linha', 'memoria': matriz_a})
 
         }
 
         //Adquiro o novo pivô (pivotado ou não)
         pivo = matriz_a[linha_pivo][coluna_pivo]
-        memoria.push([{"evento": 'Pivô', 'memoria': pivo}])
+        memoria.push({"evento": 'Pivô', 'memoria': pivo})
 
         //Para cada linha abaixo a do pivô faça:
         for (j = linha_pivo + 1; j < matriz_a.length; j++) {
-            eventos = []
+
             linha = j
             //Encontro o multiplicador (elemento da linha atual na coluna do pivô / pivô)
             multiplicador_linha = math.divide(math.evaluate(matriz_a[linha][coluna_pivo]), math.evaluate(pivo))
-            eventos.push({"evento": `Multiplicador da linha ${linha}`, 'memoria': multiplicador_linha})
+            memoria.push({"evento": `Multiplicador da linha ${linha}`, 'memoria': multiplicador_linha})
             l[linha][coluna_pivo] = multiplicador_linha//Adiciona o multiplicador ao L
 
             //fazer operação com o multiplicador em todos os elementos na linha
@@ -86,10 +89,10 @@ function fatoracao_lu(A, b) {
                 multiplicacao = math.multiply(multiplicador_linha, matriz_a[linha_pivo][index_elemento])
                 resultado = math.format(math.subtract(elemento_linha, multiplicacao))
                 matriz_a[linha][index_elemento] = resultado.split('/')[1] == '1' ? resultado.split('/')[0] : resultado
-                eventos.push({"evento": `Operação com o elemento ${index_elemento} da linha ${linha}`, 'memoria': matriz_a})
+                memoria.push({"evento": `Operação com o elemento ${index_elemento} da linha ${linha}`, 'memoria': matriz_a})
             });
 
-            memoria.push(eventos)
+
         }
         //Avança uma posicação em linha e coluna para o próximo pivô
         linha_pivo += 1
@@ -102,13 +105,14 @@ function fatoracao_lu(A, b) {
 
     // Resolução do L
     sistema_l = sistema_de_equacoes(l,b)
-    memoria.push()
+
     solucao_l = math.lsolve(l,b)
     solucao_l.forEach((elemento, index) => {
         formatado = math.format(elemento).slice(1, -1)
         solucao_l[index] = formatado.split('/')[1] == '1' ? formatado.split('/')[0] : formatado
     })
-    memoria.push([{"evento": `Sistema de L`, 'memoria': sistema_l},{"evento": `Solução do sistema L`, 'memoria': solucao_l}])
+    memoria.push({"evento": `Sistema de L`, 'memoria': sistema_l})
+    memoria.push({"evento": `Solução do sistema L`, 'memoria': solucao_l})
     //Fim resolução do L
 
     //Formatção do L para entrada no U
@@ -126,7 +130,8 @@ function fatoracao_lu(A, b) {
         formatado = math.format(elemento).slice(1, -1)
         solucao_u[index] = formatado.split('/')[1] == '1' ? formatado.split('/')[0] : formatado
     })
-    memoria.push([{"evento": `Sistema de u`, 'memoria': sistema_u},{"evento": `Solução do sistema u`, 'memoria': solucao_u}])
+    memoria.push({"evento": `Sistema de u`, 'memoria': sistema_u})
+    memoria.push({"evento": `Solução do sistema u`, 'memoria': solucao_u})
 
 
     return{
@@ -157,8 +162,10 @@ function sistema_de_equacoes(a, b){
 }
 
 function eliminacao_de_gauss(a, b) {
+    
+
     //Pega a Matriz A e o vetor b, junta em uma matriz aumentada
-    console.log(a.toString(),b.toString())
+
     matriz_aumentada = []
     a.map((el, index) => {
         matriz_aumentada.push(el);
@@ -175,7 +182,7 @@ function eliminacao_de_gauss_(a) {
     matriz_aumentada = a
     
 
-    memoria.push([{"evento": 'Matriz A', 'memoria': matriz_aumentada.toString()}])
+    memoria.push({"evento": 'Inicio da matriz A', 'matriz': matriz_aumentada.toString()})
 
     
 
@@ -207,30 +214,29 @@ function eliminacao_de_gauss_(a) {
             linha_aux = matriz_aumentada[linha_pivo]
             matriz_aumentada[linha_pivo] = matriz_aumentada[linha_maior_elemento]
             matriz_aumentada[linha_maior_elemento] = linha_aux
-            memoria.push([{"evento": 'Pivotamento de linha', 'memoria': matriz_aumentada.toString()}])
+            memoria.push({"evento": 'Pivotamento de linha', 'matrix': matriz_aumentada.toString()})
         }
 
         //Adquiro o novo pivô (pivotado ou não)
         pivo = matriz_aumentada[linha_pivo][coluna_pivo]
-        memoria.push([{"evento": 'Pivô', 'memoria': pivo}])
+        memoria.push({"evento": 'Pivô', 'pivo': pivo})
 
         //Para cada linha abaixo a do pivô faça:
         for (j = linha_pivo + 1; j < matriz_aumentada.length; j++) {
-            eventos = []
             linha = j
             //Encontro o multiplicador (elemento da linha atual na coluna do pivô / pivô)
             multiplicador_linha = math.divide(math.evaluate(matriz_aumentada[linha][coluna_pivo]), math.evaluate(pivo))
-            eventos.push({"evento": `Multiplicador da linha ${linha}`, 'memoria': multiplicador_linha})
+            memoria.push({"evento": `Multiplicador da linha ${linha}`, 'matriz': multiplicador_linha.toString()})
 
             //fazer operação com o multiplicador em todos os elementos na linha
             matriz_aumentada[linha].forEach((elemento_linha, index_elemento) => {
                 multiplicacao = math.multiply(multiplicador_linha, matriz_aumentada[linha_pivo][index_elemento])
                 resultado = math.format(math.subtract(elemento_linha, multiplicacao))
                 matriz_aumentada[linha][index_elemento] = resultado.split('/')[1] == '1' ? resultado.split('/')[0] : resultado
-                eventos.push({"evento": `Operação com o elemento ${index_elemento} da linha ${linha}`, 'memoria': matriz_aumentada.toString()})
+                memoria.push({"evento": `Operação com o elemento ${index_elemento} da linha ${linha}`, 'matriz': matriz_aumentada.toString()})
             });
         }
-        memoria.push(eventos)
+
         //Avança uma posicação em linha e coluna para o próximo pivô
         linha_pivo += 1
         coluna_pivo += 1
@@ -259,8 +265,10 @@ function eliminacao_de_gauss_(a) {
         formatado = math.format(elemento).slice(1, -1)
         solucao[index] = formatado.split('/')[1] == '1' ? formatado.split('/')[0] : formatado
     })
-
-    memoria.push([{"evento": `Matriz A`, 'memoria': a.toString()}, {"evento": `Vetor b`, 'memoria': b.toString()},{"evento": `Sistema de equações`, 'memoria': expressoes}, {"evento": `Solução do sistema`, 'memoria': solucao}])
+    memoria.push({"evento": `Matriz A`, 'matriz': a.toString()})
+    memoria.push({"evento": `Vetor b`, 'matriz': b.toString()})
+    memoria.push({"evento": `Sistema de equações`, 'memoria': expressoes})
+    memoria.push({"evento": `Solução do sistema`, 'memoria': solucao})
 
     //Retorna a solução e as expressões
     return {
@@ -270,5 +278,7 @@ function eliminacao_de_gauss_(a) {
     }
 
 }
+
+
 
 
