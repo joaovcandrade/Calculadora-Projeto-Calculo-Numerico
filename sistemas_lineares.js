@@ -121,7 +121,7 @@ function fatoracao_lu(A, b) {
     solucao_l.map(e => solucao_l_formatado.push(math.evaluate(e)))
     u_formado=[]
     u.map(e=>{u_formado.push(math.evaluate(e))})
-    
+       
     
     math.config({number: 'Fraction'})
     sistema_u = sistema_de_equacoes(u,solucao_l)
