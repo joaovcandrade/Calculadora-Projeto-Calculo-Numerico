@@ -26,6 +26,8 @@ document.getElementById("calcular").addEventListener('click', ()=>{
     }else{
         metodo = fatoracao_lu(a, b)
     }
+
+    metodo = jacobi(0,a, b,0)
    
     
     resolucaoarea = document.querySelector('#resolucao-area')

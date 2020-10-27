@@ -163,7 +163,7 @@ function sistema_de_equacoes(a, b){
 
 function eliminacao_de_gauss(a, b) {
     
-
+    console.log(a,b)
     //Pega a Matriz A e o vetor b, junta em uma matriz aumentada
 
     matriz_aumentada = []
@@ -278,6 +278,65 @@ function eliminacao_de_gauss_(a) {
     }
 
 }
+
+function jacobi(epsilon, a, b, criterio_de_parada){
+    epsilon = 0,05
+    ///Problema com a entrada A
+    //solução inicial
+    
+    //Vamos verificar se atende o critério de convergência
+    resultados_por_linha = []
+    pos_diagonal = 0  
+
+    /* for (i=0; i<a.length; i++){ 
+
+        //elemento das linhas menos o elem. diagonal
+        elementos_da_linha = []
+        for(j=0; j<a[i].length; j++){
+            if(j != i){
+                elementos_da_linha.push(a[i][j])
+            }
+        }
+        //elemento diagonal
+        elemento_diag = a[i][pos_diagonal]
+
+        //verifica se elem_diag > soma_linha
+        if(elemento_diag > elementos_da_linha.reduce((a, b) => a + b)){
+            resultados_por_linha.push(true)
+        }else{
+            resultados_por_linha.push(false)
+        }
+        pos_diagonal += 1;
+    } */
+    //verificar se atende!
+    //fazer a convergência da coluna
+
+    funcoes_de_iteração = []
+    pos_diagonal = 0
+    console.log(a)
+    for(i = 0; i<a.length; i++){
+        funcao = []
+        console.log(a[i][pos_diagonal])
+        funcao.push('1/'+a[i][pos_diagonal])
+        funcao.push('=')
+        funcao.push('(')
+        funcao.push(b[i])
+        for(j=0; j<a[i].length; j++){
+            
+            if(j != i){
+                funcao.push('-')
+                funcao.push({'valor': '('+a[i][j]+')', 'pos_x':j})
+            }
+        }
+        funcao.push(')')
+        funcoes_de_iteração.push(funcao)
+        pos_diagonal += 1
+    }
+    console.log("funcoes_de_iteração")
+    console.log(funcoes_de_iteração)
+
+}
+
 
 
 
