@@ -1,13 +1,10 @@
-const { range } = require("mathjs")
-
-math.config({
-    number: 'Fraction' // Default type of number: 
-    // 'number' (default), 'BigNumber', or 'Fraction'
-})
-
-
-
 function fatoracao_lu(A, b) {
+    //Para manter a precisão vamos manter os valores fracionados
+    math.config({
+        number: 'Fraction' // Default type of number: 
+        // 'number' (default), 'BigNumber', or 'Fraction'
+    })
+
     memoria = []
     matriz_aumentada = A
 
@@ -163,6 +160,12 @@ function sistema_de_equacoes(a, b){
 }
 
 function eliminacao_de_gauss(a, b) {
+
+    //Para manter a precisão vamos manter os valores fracionados
+    math.config({
+        number: 'Fraction' // Default type of number: 
+        // 'number' (default), 'BigNumber', or 'Fraction'
+    })
     
     console.log(a,b)
     //Pega a Matriz A e o vetor b, junta em uma matriz aumentada
@@ -279,103 +282,3 @@ function eliminacao_de_gauss_(a) {
     }
 
 }
-
-function jacobi(epsilon, a, b, criterio_de_parada){
-    a = [["10", "2", "1"], ["1", "5", "1"],["2", "3", "10"]]
-    b = ["7", "-8", "6"]
-    ///Problema com a entrada A
-    //solução inicial
-    
-    //Vamos verificar se atende o critério de convergência
-    resultados_por_linha = []
-    pos_diagonal = 0  
-
-    /* for (i=0; i<a.length; i++){ 
-
-        //elemento das linhas menos o elem. diagonal
-        elementos_da_linha = []
-        for(j=0; j<a[i].length; j++){
-            if(j != i){
-                elementos_da_linha.push(a[i][j])
-            }
-        }
-        //elemento diagonal
-        elemento_diag = a[i][pos_diagonal]
-
-        //verifica se elem_diag > soma_linha
-        if(elemento_diag > elementos_da_linha.reduce((a, b) => a + b)){
-            resultados_por_linha.push(true)
-        }else{
-            resultados_por_linha.push(false)
-        }
-        pos_diagonal += 1;
-    } */
-    //verificar se atende!
-    //fazer a convergência da coluna
-
-    funcoes_de_iteração = []
-    pos_diagonal = 0
-    console.log(a)
-    for(i = 0; i<a.length; i++){
-        funcao = ''
-        console.log(a[i][pos_diagonal])
-        funcao += ('1/'+a[i][pos_diagonal])
-        funcao += ('*')
-        funcao += ('(')
-        funcao += (b[i])
-        for(j=0; j<a[i].length; j++){
-            
-            if(j != i){
-                funcao += ('-')
-                funcao += ('('+a[i][j]+'*')                
-                funcao += ('X'+j)
-                funcao += (')')
-            }
-        }
-        funcao += (')')
-        funcoes_de_iteração.push(funcao)
-        pos_diagonal += 1
-    }
-    console.log("funcoes_de_iteração")
-    console.log(funcoes_de_iteração)
-
-    solucoes_antigas = []
-    for(i = 0; i<b.length; i++){
-        solucoes_antigas.push(b[i]/a[i][i])
-    }
-
-    console.log("Solucao inicial")
-    console.log(solucoes_antigas)
-    parar = false
-    while(!parar){
-        novas_solucoes = []
-        funcoes_de_iteração.forEach(f =>{
-            novo_f = f
-            for(i = 0; i<b.length; i++){
-                novo_f = novo_f.replace('X'+i, '('+solucoes_antigas[i]+')')
-            }
-            novas_solucoes.push(math.evaluate(novo_f))
-        });
-
-        switch(criterio_de_parada){
-            case '1':
-                diferenca = math.subtract(novas_solucoes,solucoes_antigas);
-                diferenca_modulo = diferenca.map((e)=>{return Math.abs(e)});
-                novas_solucoes_modulo = novas_solucoes.map((e)=>{return Math.abs(e)});
-                parar = ((math.max(diferenca_modulo)/math.max(novas_solucoes_modulo)) < epsilon)? true : false;
-                solucoes_antigas = novas_solucoes
-                break;
-            case '2':
-        }
-            
-        
-    }
-    console.log('solucao', solucoes_antigas)
-        
-
-}
-
-
-
-
-

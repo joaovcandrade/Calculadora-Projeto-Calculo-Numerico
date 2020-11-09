@@ -5,34 +5,29 @@ document.querySelector("#aplicar-dimensao").addEventListener('click', ()=>{
 document.getElementById("calcular").addEventListener('click', ()=>{
     areatable = document.querySelector('#table-area');
     trs = areatable.querySelectorAll('tbody > tr');
-    a = []
-    b = []
+    x = []
+    y = []
     trs.forEach(element => {
         inputs = element.querySelectorAll('input')
         line = []
         inputs.forEach(el =>{
             line.push(el.value)
         })
-
-        b.push(line.pop())
-        a.push(line)
+        
+        y.push(line.pop())
+        x.push(line.pop())
 
     });
-    console.log(a,b)
+
     opt = document.querySelector('input[name="exampleRadios"]:checked').value
+
     switch(opt){
-        case 'gauss':
-            metodo = eliminacao_de_gauss(a, b)
+        case 'lagrange':
+            metodo = lagrange(x, y, 1)
             break;
-        case 'lu':
-            metodo = fatoracao_lu(a, b)
-            break;
-        case 'jacobi':
-            metodo = jacobi('0.05', a, b, '1')
-            break;
-        case 'seidel':
-            metodo = seidel('0.05', a, b, '1')
-            break;
+        case 'newton':
+            metodo = newton(x, y, 1)
+             break;
         default:
             alert('erro');
     }
@@ -60,17 +55,10 @@ function create_table(dimension){
     `
         <thead>
             <tr>
-                ${(()=>{
-                    ths = ''
-                    for(i=0; i< dimension; i++){
-                        ths += `<th>X${i}</th>`
-                    }
-                    ths += `<th>b</th>`
-                    return ths
-                })()}
-            </tr>
+                <th scope="col" class="text-center">X</th>
+                <th scope="col" class="text-center">y</th>
+            </tr>                
         </thead>
-
         <tbody>
             ${(()=>{
                 trs = ''
@@ -79,7 +67,7 @@ function create_table(dimension){
                     <tr>
                         ${(()=>{
                             tds= ''
-                            for(j=0; j< dimension; j++){
+                            for(j=0; j<1; j++){
                                 tds += '<td><input type="text" class="input-number form-control" value=0></td>'
                             }
                             tds += '<td><input type="text" class="input-number form-control" value=0></td>'
