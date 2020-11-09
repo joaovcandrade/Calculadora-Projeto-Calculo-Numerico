@@ -20,17 +20,23 @@ document.getElementById("calcular").addEventListener('click', ()=>{
     });
     console.log(a,b)
     opt = document.querySelector('input[name="exampleRadios"]:checked').value
-    if(opt ==  'gauss'){
-        console.log('gauss')
-        metodo = eliminacao_de_gauss(a, b)
-    }else{
-        metodo = fatoracao_lu(a, b)
+    switch(opt){
+        case 'gauss':
+            metodo = eliminacao_de_gauss(a, b)
+            break;
+        case 'lu':
+            metodo = fatoracao_lu(a, b)
+            break;
+        case 'jacobi':
+            metodo = jacobi('0.05', a, b, '1')
+            break;
+        default:
+            alert('erro');
     }
-
-    metodo = jacobi(0,a, b,0)
-   
+ 
     
     resolucaoarea = document.querySelector('#resolucao-area')
+
     metodo['memoria'].forEach(elemento =>{
         span = document.createElement('span')
 

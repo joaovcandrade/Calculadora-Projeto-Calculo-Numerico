@@ -1,3 +1,4 @@
+const { range } = require("mathjs")
 
 math.config({
     number: 'Fraction' // Default type of number: 
@@ -280,7 +281,8 @@ function eliminacao_de_gauss_(a) {
 }
 
 function jacobi(epsilon, a, b, criterio_de_parada){
-    epsilon = 0,05
+    a = [["10", "2", "1"], ["1", "5", "1"],["2", "3", "10"]]
+    b = ["7", "-8", "6"]
     ///Problema com a entrada A
     //solução inicial
     
@@ -315,25 +317,61 @@ function jacobi(epsilon, a, b, criterio_de_parada){
     pos_diagonal = 0
     console.log(a)
     for(i = 0; i<a.length; i++){
-        funcao = []
+        funcao = ''
         console.log(a[i][pos_diagonal])
-        funcao.push('1/'+a[i][pos_diagonal])
-        funcao.push('=')
-        funcao.push('(')
-        funcao.push(b[i])
+        funcao += ('1/'+a[i][pos_diagonal])
+        funcao += ('*')
+        funcao += ('(')
+        funcao += (b[i])
         for(j=0; j<a[i].length; j++){
             
             if(j != i){
-                funcao.push('-')
-                funcao.push({'valor': '('+a[i][j]+')', 'pos_x':j})
+                funcao += ('-')
+                funcao += ('('+a[i][j]+'*')                
+                funcao += ('X'+j)
+                funcao += (')')
             }
         }
-        funcao.push(')')
+        funcao += (')')
         funcoes_de_iteração.push(funcao)
         pos_diagonal += 1
     }
     console.log("funcoes_de_iteração")
     console.log(funcoes_de_iteração)
+
+    solucoes_antigas = []
+    for(i = 0; i<b.length; i++){
+        solucoes_antigas.push(b[i]/a[i][i])
+    }
+
+    console.log("Solucao inicial")
+    console.log(solucoes_antigas)
+    parar = false
+    while(!parar){
+        novas_solucoes = []
+        funcoes_de_iteração.forEach(f =>{
+            novo_f = f
+            for(i = 0; i<b.length; i++){
+                novo_f = novo_f.replace('X'+i, '('+solucoes_antigas[i]+')')
+            }
+            novas_solucoes.push(math.evaluate(novo_f))
+        });
+
+        switch(criterio_de_parada){
+            case '1':
+                diferenca = math.subtract(novas_solucoes,solucoes_antigas);
+                diferenca_modulo = diferenca.map((e)=>{return Math.abs(e)});
+                novas_solucoes_modulo = novas_solucoes.map((e)=>{return Math.abs(e)});
+                parar = ((math.max(diferenca_modulo)/math.max(novas_solucoes_modulo)) < epsilon)? true : false;
+                solucoes_antigas = novas_solucoes
+                break;
+            case '2':
+        }
+            
+        
+    }
+    console.log('solucao', solucoes_antigas)
+        
 
 }
 
