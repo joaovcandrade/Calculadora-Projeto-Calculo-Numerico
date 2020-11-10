@@ -1,4 +1,4 @@
-function jacobi(epsilon, a, b, criterio_de_parada){
+function jacobi(epsilon, a, b){
     memoria = []
 
     //Para manter a precisão vamos manter os valores fracionados
@@ -7,8 +7,6 @@ function jacobi(epsilon, a, b, criterio_de_parada){
         // 'number' (default), 'BigNumber', or 'Fraction'
     })
 
-    a = [["10", "2", "1"], ["1", "5", "1"],["2", "3", "10"]]
-    b = ["7", "-8", "6"]
     ///Problema com a entrada A
     //solução inicial
  
@@ -73,8 +71,7 @@ function jacobi(epsilon, a, b, criterio_de_parada){
 
         //Com as novas soluções, verifica o critério de parada.
         //Aqui existem 3 critérios, um deles será ativado e verficado se é menor que o Épsilon.
-        switch(criterio_de_parada){
-            case '1':
+    
                 diferenca = math.subtract(novas_solucoes,solucoes_antigas);
                 diferenca_modulo = diferenca.map((e)=>{return Math.abs(e)});
                 novas_solucoes_modulo = novas_solucoes.map((e)=>{return Math.abs(e)});
@@ -82,10 +79,9 @@ function jacobi(epsilon, a, b, criterio_de_parada){
                 solucoes_antigas = novas_solucoes
                 memoria.push(`⚙ Checado critério de parada: <i>${(math.max(diferenca_modulo)/math.max(novas_solucoes_modulo))} é menor que ${epsilon} ?</i>. 
                 <br> Resultado <b>${(parar)? 'Verdadeiro, pare 🛑': 'Falso, continue ✔'}</b>`)
-                break;
+              
 
-            case '2':
-        }
+       
             
         
     }
@@ -96,7 +92,7 @@ function jacobi(epsilon, a, b, criterio_de_parada){
 }
 
 
-function seidel(epsilon, a, b, criterio_de_parada){
+function seidel(epsilon, a, b){
     memoria = []
 
     //Para manter a precisão vamos manter os valores fracionados
@@ -105,8 +101,7 @@ function seidel(epsilon, a, b, criterio_de_parada){
         // 'number' (default), 'BigNumber', or 'Fraction'
     })
 
-    a = [["10", "2", "1"], ["1", "5", "1"],["2", "3", "10"]]
-    b = ["7", "-8", "6"]
+
     ///Problema com a entrada A
     //solução inicial
  
@@ -173,8 +168,7 @@ function seidel(epsilon, a, b, criterio_de_parada){
 
         //Com as novas soluções, verifica o critério de parada.
         //Aqui existem 3 critérios, um deles será ativado e verficado se é menor que o Épsilon.
-        switch(criterio_de_parada){
-            case '1':
+
                 diferenca = math.subtract(novas_solucoes,solucoes_antigas);
                 diferenca_modulo = diferenca.map((e)=>{return Math.abs(e)});
                 novas_solucoes_modulo = novas_solucoes.map((e)=>{return Math.abs(e)});
@@ -182,10 +176,7 @@ function seidel(epsilon, a, b, criterio_de_parada){
                 solucoes_antigas = novas_solucoes
                 memoria.push(`⚙ Checado critério de parada: <i>${(math.max(diferenca_modulo)/math.max(novas_solucoes_modulo))} é menor que ${epsilon} ?</i>. 
                 <br> Resultado <b>${(parar)? 'Verdadeiro, pare 🛑': 'Falso, continue ✔'}</b>`)
-                break;
-
-            case '2':
-        }
+  
             
         
     }

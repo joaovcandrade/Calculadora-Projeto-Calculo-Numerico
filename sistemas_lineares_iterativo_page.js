@@ -1,8 +1,17 @@
 document.querySelector("#aplicar-dimensao").addEventListener('click', ()=>{
+    document.querySelector('#definicao').style.display="none";
+    document.querySelector('#calcular').style.display="inline";
+    document.querySelector('#resetar').style.display="inline";
+    document.querySelector('#definicao-salva').innerHTML = `Epsilon: ${document.querySelector("#erro").value}`
     create_table(document.getElementById('dimensao').value)
 })
 
+document.getElementById("resetar").addEventListener('click', ()=>{
+    document.location.reload()
+})
+
 document.getElementById("calcular").addEventListener('click', ()=>{
+    epsilon = document.querySelector("#erro").value
     areatable = document.querySelector('#table-area');
     trs = areatable.querySelectorAll('tbody > tr');
     a = []
@@ -21,17 +30,11 @@ document.getElementById("calcular").addEventListener('click', ()=>{
     console.log(a,b)
     opt = document.querySelector('input[name="exampleRadios"]:checked').value
     switch(opt){
-        case 'gauss':
-            metodo = eliminacao_de_gauss(a, b)
-            break;
-        case 'lu':
-            metodo = fatoracao_lu(a, b)
-            break;
         case 'jacobi':
-            metodo = jacobi('0.05', a, b, '1')
+            metodo = jacobi(epsilon, a, b)
             break;
         case 'seidel':
-            metodo = seidel('0.05', a, b, '1')
+            metodo = seidel(epsilon, a, b)
             break;
         default:
             alert('erro');
@@ -39,15 +42,10 @@ document.getElementById("calcular").addEventListener('click', ()=>{
  
     
     resolucaoarea = document.querySelector('#resolucao-area')
-
+    resolucaoarea.innerHTML = ''
     metodo['memoria'].forEach(elemento =>{
-        span = document.createElement('span')
-
-                
-            span.innerHTML += elemento + '<br>'
-                
-            
-
+        span = document.createElement('span')   
+            span.innerHTML += elemento + '<br>'   
         resolucaoarea.appendChild(span)
         resolucaoarea.appendChild(document.createElement('hr'))
     })

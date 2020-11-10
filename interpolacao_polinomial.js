@@ -1,7 +1,6 @@
 function lagrange(x, y, p_x){
     memoria = []
-    x = [["-1"], ["0"], ["2"]]
-    y=["4", "1", "-1"]
+
 
     //Para manter a precisão vamos manter os valores fracionados
     math.config({
@@ -60,6 +59,13 @@ function lagrange(x, y, p_x){
     
     memoria.push(`🥳 Polinômio encontrado: ${polinomio}`)
 
+    p_x = (p_x == '')? 1 : p_x
+
+    scope = {x : p_x}
+    resultado = math.evaluate(polinomio, scope)
+    
+    memoria.push(`📢 X = ${p_x}: <b>${eval(math.format(resultado)).toFixed(4)}</b>`)
+
     return {'resultado': polinomio, memoria}
 
 
@@ -72,8 +78,6 @@ function newton(x, y, p_x){
     memoria = []
     console.log(x, y)
 
-    x = [["-1"], ["0"], ["2"]]
-    y=["4", "1", "-1"]
 
 
     //Para manter a precisão vamos manter os valores fracionados
@@ -98,16 +102,16 @@ function newton(x, y, p_x){
     diferencas = []
 
     d = [] //Ds
-    d.push(y[0]) //O primeiro d é o y0
-    memoria.push(`⚠ Encontrado o d0: ${y[0]}`)
+    d.push(parseFloat(y[0]).toFixed(4)) //O primeiro d é o y0
+    memoria.push(`⚠ Encontrado o d0: ${parseFloat(y[0]).toFixed(4)}`)
 
     for(i = 0; i< y.length-1; i++){
 
         r = {'valor':(y[i+1] - y[i]) / (x[i+1] - x[i]), 'maximo': x[i+1], 'minimo': x[i]}
         memoria.push(`⚙ Diferença dividida realizado de: x=${x[i]} e y=${y[i]} com x=${x[i+1]} e y=${y[i+1]}. Resultado ${r['valor']}`)
         if(i == 0){
-            memoria.push(`🎉 Encontrado o d<sub>${d.length}<sub>: <b>${r['valor']}</b>`)
-            d.push(r['valor'])
+            memoria.push(`🎉 Encontrado o d<sub>${d.length}</sub>: <b>${parseFloat(r['valor']).toFixed(4)}</b>`)
+            d.push(parseFloat(r['valor']).toFixed(4))
         }
         diferencas.push(r)
     }
@@ -121,8 +125,8 @@ function newton(x, y, p_x){
         r = {'valor':(diferencas[i+1]['valor'] - diferencas[i]['valor']) / (maximo - minimo), 'maximo': maximo, 'minimo': minimo}
         memoria.push(`⚙ Diferença dividida realizado de: x=${minimo} e y=${diferencas[i]['valor']} com x=${maximo} e y=${diferencas[i+1]['valor']}. Resultado ${r['valor']}`)
         if(i == 0){
-            memoria.push(`⚠ Encontrado o d<sub>${d.length}</sub>: <b>${r['valor']}</b>`)
-            d.push(r['valor'])
+            memoria.push(`⚠ Encontrado o d<sub>${d.length}</sub>: <b>${parseFloat(r['valor']).toFixed(4)}</b>`)
+            d.push(parseFloat(r['valor']).toFixed(4))
         }
         novas_diferencas.push(r)
     }
@@ -143,6 +147,14 @@ function newton(x, y, p_x){
     memoria.push(`⚙ Atualizado os xs no polinômio <i>${polinomio_antigo}</i>.<br> Resultado: <b>${polinomio}</b>`)
 
     memoria.push(`🥳 Polinômio encontrado: <b>${polinomio}</b>`)
+    
+    p_x = (p_x == '')? 1 : p_x
+
+    scope = {x : p_x}
+    resultado = math.evaluate(polinomio, scope)
+ 
+    
+    memoria.push(`📢 X = ${p_x}: <b>${eval(math.format(resultado)).toFixed(4)}</b>`)
 
     return {'resultado': polinomio, memoria}
 

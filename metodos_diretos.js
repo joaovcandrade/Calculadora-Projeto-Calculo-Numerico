@@ -1,6 +1,5 @@
 function fatoracao_lu(A, b) {
-    A = [["3", "2", "4"],["1", "1", "2"],["4", "3", "-2"]]
-    b=["1", "2", "3"]
+
     //Para manter a precisão vamos manter os valores fracionados
     math.config({
         number: 'Fraction' // Default type of number: 
@@ -68,7 +67,7 @@ function fatoracao_lu(A, b) {
             matriz_a[linha_maior_elemento] = linha_aux
             //memoria.push({"evento": 'Pivotamento de linha', 'memoria': matriz_a})
             memoria.push(`⚠ Houve pivotamente (pivô com valor zero 0). Linha ${linha_pivo+1} e ${linha_maior_elemento+1} foram invertidas.
-             Nova matriz A: <br> <b>${JSON.stringify(l).slice(1,-1).split('],[').join('],<br>[')}</b>`)
+             Nova matriz A: <br> <b>${JSON.stringify(matriz_aumentada).slice(1,-1).split('],[').join('],<br>[')}</b>`)
 
         }
 
@@ -100,7 +99,7 @@ function fatoracao_lu(A, b) {
             <br> Resultado: <b>${matriz_a[linha]}</b>`)
             });
             
-            m.push(`Multiplicador ${multiplicador_linha} adicionado à matriz L.`)
+            m.push(`<br> > Multiplicador <i>${math.format(multiplicador_linha)}</i> adicionado à matriz L.`)
             memoria.push(m)
         }
         
@@ -109,8 +108,11 @@ function fatoracao_lu(A, b) {
         coluna_pivo += 1
     }
 
+    memoria.push(`⚙ Finalizado a Matriz L com os valores dos multiplicadores: <br><b>${JSON.stringify(l.map((e)=>{return math.format(e)})).slice(1,-1).split('","').join(',<br>')}</b>`)
+
     //Cria o U
     u = matriz_a
+    memoria.push(`⚙ Criado Matriz u com os valores resultantes: <br><b>${JSON.stringify(u).slice(1,-1).split('],[').join('],<br>[')}</b>`)
     //memoria.push({"evento": `Criação da matriz U`, 'memoria': u})
 
     // Resolução do L
@@ -121,8 +123,10 @@ function fatoracao_lu(A, b) {
         formatado = math.format(elemento).slice(1, -1)
         solucao_l[index] = formatado.split('/')[1] == '1' ? formatado.split('/')[0] : formatado
     })
-    //memoria.push({"evento": `Sistema de L`, 'memoria': sistema_l})
-    //memoria.push({"evento": `Solução do sistema L`, 'memoria': solucao_l})
+
+    memoria.push(`⚙ Sistema de L: ${sistema_de_equacoes_formatado(l,b)}`)
+    memoria.push(`⚠ Solução do sistema L: ${solucao_l}`)
+
     //Fim resolução do L
 
     //Formatção do L para entrada no U
@@ -133,24 +137,19 @@ function fatoracao_lu(A, b) {
     u.map(e=>{u_formado.push(math.evaluate(e))})
        
     
-    math.config({number: 'Fraction'})
     sistema_u = sistema_de_equacoes(u,solucao_l)
     solucao_u = math.usolve(u_formado,solucao_l_formatado)
     solucao_u.forEach((elemento, index) => {
         formatado = math.format(elemento).slice(1, -1)
-        solucao_u[index] = formatado.split('/')[1] == '1' ? formatado.split('/')[0] : formatado
+        solucao_u[index] = formatado.split('/')[1] == '1' ? parseFloat(formatado.split('/')[0]).toFixed(4) :  parseFloat(formatado).toFixed(4)
     })
-    //memoria.push({"evento": `Sistema de u`, 'memoria': sistema_u})
-    //memoria.push({"evento": `Solução do sistema u`, 'memoria': solucao_u})
 
+    memoria.push(`⚙ Sistema de u: ${sistema_de_equacoes_formatado(u,solucao_l)}`)
+    memoria.push(`⚠ Solução do sistema u: ${solucao_u}`)
+    memoria.push(`🥳 Resultado: ${solucao_u}`)
+    
 
-    return{
-        "sistema_l": sistema_l,
-        "solucao_l": solucao_l,
-        "sistema_u": sistema_u,
-        "solucao_u": solucao_u,
-        "memoria": memoria
-    }
+    return{"resultado": solucao_u, memoria}
 
     
 
@@ -163,7 +162,7 @@ function sistema_de_equacoes(a, b){
     expressoes = []
     a.forEach((el, index) => {
         expr = ''
-        for (i = index; i < el.length - 1; i++) {
+        for (i = index; i < el.length; i++) {
             expr += `+(${el[i]}) X${i + 1} `
         }
         expr += ` = (${b[index]})`
@@ -172,9 +171,23 @@ function sistema_de_equacoes(a, b){
     return expressoes
 }
 
+function sistema_de_equacoes_formatado(a, b){
+
+    //Cria o sistema de equacoes
+    expressoes = ''
+    a.forEach((el, index) => {
+        expr = '<br>'
+        for (i = index; i < el.length; i++) {
+            expr += `+(${el[i]}) X${i + 1} `
+        }
+        expr += ` = (${b[index]}) <br>`
+        expressoes += (expr)
+    })
+    return expressoes
+}
+
 function eliminacao_de_gauss(a, b) {
     
-
     //Para manter a precisão vamos manter os valores fracionados
     math.config({
         number: 'Fraction' // Default type of number: 
@@ -182,8 +195,8 @@ function eliminacao_de_gauss(a, b) {
     })
     
     console.log(a,b)
-    //Pega a Matriz A e o vetor b, junta em uma matriz aumentada
 
+    //Pega a Matriz A e o vetor b, junta em uma matriz aumentada
     matriz_aumentada = []
     a.map((el, index) => {
         matriz_aumentada.push(el);
@@ -201,7 +214,7 @@ function eliminacao_de_gauss_(a) {
     matriz_aumentada = a
     
 
-    memoria.push({"evento": 'Inicio da matriz A', 'matriz': matriz_aumentada.toString()})
+    memoria.push(`⚙ Criado a matriz A : <br><b>${JSON.stringify(matriz_aumentada).slice(1,-1).split('],[').join('],<br>[')}</b>`)
 
     
 
@@ -233,28 +246,36 @@ function eliminacao_de_gauss_(a) {
             linha_aux = matriz_aumentada[linha_pivo]
             matriz_aumentada[linha_pivo] = matriz_aumentada[linha_maior_elemento]
             matriz_aumentada[linha_maior_elemento] = linha_aux
-            memoria.push({"evento": 'Pivotamento de linha', 'matrix': matriz_aumentada.toString()})
+            memoria.push(`⚠ Houve pivotamente (pivô com valor zero 0). Linha ${linha_pivo+1} e ${linha_maior_elemento+1} foram invertidas.
+             Nova matriz A: <br> <b>${JSON.stringify(matriz_aumentada).slice(1,-1).split('],[').join('],<br>[')}</b>`)
         }
 
         //Adquiro o novo pivô (pivotado ou não)
         pivo = matriz_aumentada[linha_pivo][coluna_pivo]
-        memoria.push({"evento": 'Pivô', 'pivo': pivo})
+        memoria.push(`⚠ Novo pivô: <b>${pivo}</b>`)
 
         //Para cada linha abaixo a do pivô faça:
         for (j = linha_pivo + 1; j < matriz_aumentada.length; j++) {
+            m = []
             linha = j
             //Encontro o multiplicador (elemento da linha atual na coluna do pivô / pivô)
             multiplicador_linha = math.divide(math.evaluate(matriz_aumentada[linha][coluna_pivo]), math.evaluate(pivo))
-            memoria.push({"evento": `Multiplicador da linha ${linha}`, 'matriz': multiplicador_linha.toString()})
+            m.push(`⚙ Multiplicador da linha ${linha+1} calculado: <b>${math.format(multiplicador_linha)}</b>`)
 
             //fazer operação com o multiplicador em todos os elementos na linha
             matriz_aumentada[linha].forEach((elemento_linha, index_elemento) => {
                 multiplicacao = math.multiply(multiplicador_linha, matriz_aumentada[linha_pivo][index_elemento])
                 resultado = math.format(math.subtract(elemento_linha, multiplicacao))
+                linha_antiga = matriz_aumentada[linha][index_elemento]
                 matriz_aumentada[linha][index_elemento] = resultado.split('/')[1] == '1' ? resultado.split('/')[0] : resultado
-                memoria.push({"evento": `Operação com o elemento ${index_elemento} da linha ${linha}`, 'matriz': matriz_aumentada.toString()})
+                m.push(`<br>⚙ Operação <i>L <- mL x Lp</i> com o elemento da linha ${linha+1}: ${linha_antiga}. 
+            <br> Resultado: <b>${matriz_aumentada[linha]}</b>`)
             });
+            memoria.push(m)
+            m = []
         }
+        
+
 
         //Avança uma posicação em linha e coluna para o próximo pivô
         linha_pivo += 1
@@ -273,27 +294,26 @@ function eliminacao_de_gauss_(a) {
         }
     }
 
+    memoria.push(`<br>⚙ Matriz resultante: <br> <b>${JSON.stringify(matriz_aumentada.map(e=>{return math.format(e)})).slice(1,-1).split('","').join('",<br>"')}</b>`)
+
     //Cria o sistema de equacoes
     expressoes = sistema_de_equacoes(a, b)
+    memoria.push(`<br>⚙ Sistema de equações de Matriz resultante: <br> ${sistema_de_equacoes_formatado(a,b)}`)
 
     //Realiza a substituição e encontra os valores das icógnitas
     solucao = math.usolve(a, b)
+    memoria.push(`<br>🥳 Soluçãio do sistema: <br> ${solucao}`)
 
     //Formata a solução para o formato inteiro ou fracionado, se possível.
     solucao.forEach((elemento, index) => {
         formatado = math.format(elemento).slice(1, -1)
         solucao[index] = formatado.split('/')[1] == '1' ? formatado.split('/')[0] : formatado
     })
-    memoria.push({"evento": `Matriz A`, 'matriz': a.toString()})
-    memoria.push({"evento": `Vetor b`, 'matriz': b.toString()})
-    memoria.push({"evento": `Sistema de equações`, 'memoria': expressoes})
-    memoria.push({"evento": `Solução do sistema`, 'memoria': solucao})
+
 
     //Retorna a solução e as expressões
     return {
-        'solucao':solucao,
-        'expressoes': expressoes,
-        'memoria': memoria
+        'resultado':solucao, memoria
     }
 
 }

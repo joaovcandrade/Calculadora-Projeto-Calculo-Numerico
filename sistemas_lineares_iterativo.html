@@ -37,57 +37,63 @@
   </nav>
     
     <div class="container">
-      <span><b>Métodos de interpolação polinomial:</b></span>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="lagrange">
-            <label class="form-check-label" for="exampleRadios1">
-              Lagrange
+          <span><b>Métodos iterativos:</b></span>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="jacobi" checked>
+            <label class="form-check-label" for="exampleRadios3">
+              Gauss-Jacobi
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="newton" checked>
-            <label class="form-check-label" for="exampleRadios2">
-              Newton
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="seidel">
+            <label class="form-check-label" for="exampleRadios4">
+              Gauss-Seidel
             </label>
           </div>
           <hr>
+            <span id="definicao-salva"></span>
             <div class="form-group" id="definicao">
                 <div class="form-group">
-                    <label for='dimensao'>Quantos pontos?</label>
+                    <label for='dimensao' class="mr-2">Dimensão da matriz</label>
                   <input type="number" name="" id="dimensao"> 
-                  <button type="button" class="btn btn-primary" id='aplicar-dimensao'>Definir</button>
+                  <br><label for='dimensao' class="mr-2">Erro</label>
+                  <input type="number" name="" id="erro"> 
+                  <br><button type="button" class="btn btn-primary" id='aplicar-dimensao'>Definir</button>
                 </div>
             </div>
-            <div class="form-group" id='x' style="display:none">
-              <label for='dimensao'> P(x)=?;  x= </label>
-            <input type="number" name="" id="x-valor"> 
-          </div>
             <div id='table-area'>
             </div>
-            <button type="button" class="btn btn-primary" id="calcular" style="display: none;">Calcular</button>
+        
+              
+              <button type="button" class="btn btn-primary" id="calcular" style="display: none;">Calcular</button>
               <button type="button" class="btn btn-danger" id="resetar" style="display: none;">Resetar</button>
-              <div id="accordion" class="mt-5">
-                <div class="card">
-                  <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
-                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Resolução passo a passo
-                      </button>
-                    </h5>
-                  </div>
-  
-                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                    <div class="card-body">
-                      <div id="resolucao-area"class='mt-5'> Não há nada por aqui ainda 🤷‍♂️</div>
-                    </div>
-                  </div>
-    </div>
-              </div></div>
-              <footer class="bg-dark fixed-bottom">
-                <div class="container d-flex justify-content-end">
-                <span class="text-muted">by João Vitor da Costa Andrade.</span>
+
+            
+
+            <div id="accordion" class="mt-5">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Resolução passo a passo
+                    </button>
+                  </h5>
                 </div>
-              </footer>
+
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div class="card-body">
+                    <div id="resolucao-area"class='mt-5'> Não há nada por aqui ainda 🤷‍♂️</div>
+                  </div>
+                </div>
+
+            
+    </div>
+  </div></div>
+  <footer class="bg-dark fixed-bottom">
+    <div class="container d-flex justify-content-end">
+    <span class="text-muted">by João Vitor da Costa Andrade.</span>
+    </div>
+  </footer>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -99,6 +105,8 @@
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
 <script src="./node_modules/mathjs/dist/math.min.js" type="text/javascript"></script>
-<script src="./interpolacao_polinomial.js"></script>
-<script src="./interpolacao_polinomial_page.js"></script>
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="./metodos_diretos.js"></script>
+<script src="./metodos_iterativos.js"></script>
+<script src="./sistemas_lineares_iterativo_page.js"></script>
 </html>

@@ -1,6 +1,5 @@
 document.querySelector("#aplicar-dimensao").addEventListener('click', ()=>{
     document.querySelector('#definicao').style.display="none";
-    document.querySelector('#x').style.display="block";
     document.querySelector('#calcular').style.display="inline";
     document.querySelector('#resetar').style.display="inline";
     create_table(document.getElementById('dimensao').value)
@@ -13,41 +12,40 @@ document.getElementById("resetar").addEventListener('click', ()=>{
 document.getElementById("calcular").addEventListener('click', ()=>{
     areatable = document.querySelector('#table-area');
     trs = areatable.querySelectorAll('tbody > tr');
-    x = []
-    y = []
+    a = []
+    b = []
     trs.forEach(element => {
         inputs = element.querySelectorAll('input')
         line = []
         inputs.forEach(el =>{
             line.push(el.value)
         })
-        
-        y.push(line.pop())
-        x.push(line.pop())
+
+        b.push(line.pop())
+        a.push(line)
 
     });
-
+    console.log(a,b)
     opt = document.querySelector('input[name="exampleRadios"]:checked').value
-    x_val = document.querySelector('#x-valor').value
     switch(opt){
-        case 'lagrange':
-            metodo = lagrange(x, y, x_val)
+        case 'gauss':
+            metodo = eliminacao_de_gauss(a, b)
             break;
-        case 'newton':
-            metodo = newton(x, y, x_val)
-             break;
+        case 'lu':
+            metodo = fatoracao_lu(a, b)
+            break;
         default:
             alert('erro');
     }
  
     
     resolucaoarea = document.querySelector('#resolucao-area')
-    resolucaoarea.innerHTML =''
+    resolucaoarea.innerHTML = ''
     metodo['memoria'].forEach(elemento =>{
         span = document.createElement('span')
 
                 
-                 span.innerHTML += elemento + '<br>'
+            span.innerHTML += elemento + '<br>'
                 
             
 
@@ -63,10 +61,17 @@ function create_table(dimension){
     `
         <thead>
             <tr>
-                <th scope="col" class="text-center">X</th>
-                <th scope="col" class="text-center">y</th>
-            </tr>                
+                ${(()=>{
+                    ths = ''
+                    for(i=0; i< dimension; i++){
+                        ths += `<th>X${i}</th>`
+                    }
+                    ths += `<th>b</th>`
+                    return ths
+                })()}
+            </tr>
         </thead>
+
         <tbody>
             ${(()=>{
                 trs = ''
@@ -75,7 +80,7 @@ function create_table(dimension){
                     <tr>
                         ${(()=>{
                             tds= ''
-                            for(j=0; j<1; j++){
+                            for(j=0; j< dimension; j++){
                                 tds += '<td><input type="text" class="input-number form-control" value=0></td>'
                             }
                             tds += '<td><input type="text" class="input-number form-control" value=0></td>'
