@@ -1,6 +1,6 @@
-
-
 function jacobi(epsilon, a, b, criterio_de_parada){
+    memoria = []
+
     //Para manter a precisão vamos manter os valores fracionados
     math.config({
         number: 'Fraction' // Default type of number: 
@@ -43,11 +43,15 @@ function jacobi(epsilon, a, b, criterio_de_parada){
         pos_diagonal += 1
     }
 
+    memoria.push(`⚙ Construído a função de iteração baseado na matriz A e vetor b:<br> <b>${funcoes_de_iteração}</b>`)
+
     //Produz a solução inicial sendo ela b_i/a_ii
     solucoes_antigas = []
     for(i = 0; i<b.length; i++){
         solucoes_antigas.push(b[i]/a[i][i])
     }
+
+    memoria.push(`⚙ Construído a solução inicial X(0): <b>${solucoes_antigas}</b>`)
 
     //Aqui começa a iteração!!
     //Enquanto parar for False (não bater o épsilon) ele vai rodar.
@@ -56,13 +60,16 @@ function jacobi(epsilon, a, b, criterio_de_parada){
         
         //Gera novas soluções sobistituindo os Xs correspondente na solução inicial
         novas_solucoes = []
-        funcoes_de_iteração.forEach(f =>{
+        funcoes_de_iteração.forEach((f, index) =>{
             novo_f = f
             for(i = 0; i<b.length; i++){
-                novo_f = novo_f.replaceAll('X'+i, '('+solucoes_antigas[i]+')')
+                novo_f = novo_f.replaceAll('X'+i, '('+solucoes_antigas[i]+')')  
             }
+            memoria.push(`⚙ Substituindo os xs da função de iteração x<sub>${index+1}</sub> de <i>${f}</i>. <br> Resultado: <b>${novo_f} =  <i>${math.evaluate(novo_f)}<i> </b>`)
             novas_solucoes.push(math.evaluate(novo_f))
         });
+
+        memoria.push(`⚠ Novo vetor X, resultado dos cálculos anteriores: ${novas_solucoes}`)
 
         //Com as novas soluções, verifica o critério de parada.
         //Aqui existem 3 critérios, um deles será ativado e verficado se é menor que o Épsilon.
@@ -73,19 +80,24 @@ function jacobi(epsilon, a, b, criterio_de_parada){
                 novas_solucoes_modulo = novas_solucoes.map((e)=>{return Math.abs(e)});
                 parar = ((math.max(diferenca_modulo)/math.max(novas_solucoes_modulo)) < epsilon)? true : false;
                 solucoes_antigas = novas_solucoes
+                memoria.push(`⚙ Checado critério de parada: <i>${(math.max(diferenca_modulo)/math.max(novas_solucoes_modulo))} é menor que ${epsilon} ?</i>. 
+                <br> Resultado <b>${(parar)? 'Verdadeiro, pare 🛑': 'Falso, continue ✔'}</b>`)
                 break;
+
             case '2':
         }
             
         
     }
-    console.log('solucao', solucoes_antigas)
-        
+
+    memoria.push(`🥳 Solução encontrada: <b>${solucoes_antigas}</b>` )  
+    return{'resultado':solucoes_antigas, memoria}          
 
 }
 
 
 function seidel(epsilon, a, b, criterio_de_parada){
+    memoria = []
 
     //Para manter a precisão vamos manter os valores fracionados
     math.config({
@@ -129,11 +141,15 @@ function seidel(epsilon, a, b, criterio_de_parada){
         pos_diagonal += 1
     }
 
+    memoria.push(`⚙ Construído a função de iteração baseado na matriz A e vetor b:<br> <b>${funcoes_de_iteração}</b>`)
+
     //Produz a solução inicial sendo ela b_i/a_ii
     solucoes_antigas = []
     for(i = 0; i<b.length; i++){
         solucoes_antigas.push(b[i]/a[i][i])
     }
+
+    memoria.push(`⚙ Construído a solução inicial X(0): <b>${solucoes_antigas}</b>`)
 
     //Aqui começa a iteração!!
     //Enquanto parar for False (não bater o épsilon) ele vai rodar.
@@ -142,15 +158,18 @@ function seidel(epsilon, a, b, criterio_de_parada){
         
         //Gera novas soluções sobistituindo os Xs correspondente na solução inicial
         novas_solucoes = []
-        funcoes_de_iteração.forEach(f =>{
+        funcoes_de_iteração.forEach((f,index) =>{
             novo_f = f
             for(i = 0; i<b.length; i++){
-
                 //Aqui existe uma diferença para o Gauss-Jacobi, pois é verificado se tem uma valor mais atualizado no novo vetorde soluções.
                 novo_f = novo_f = novo_f.replaceAll(`X${i}`, `(${(novas_solucoes.length > i) ? novas_solucoes[i] : solucoes_antigas[i]})`);
             }
+            memoria.push(`⚙ Substituindo os xs da função de iteração x<sub>${index+1}</sub> de <i>${f}</i>. <br> Resultado: <b>${novo_f} =  <i>${math.evaluate(novo_f)}<i> </b>`)
+            memoria.push(`⚠ Novo x<sub>${index+1}</sub>: <b>${math.evaluate(novo_f)}<b>`)
             novas_solucoes.push(math.evaluate(novo_f))
         });
+
+        memoria.push(`⚠ Novo vetor X, resultado dos cálculos anteriores: ${novas_solucoes}`)
 
         //Com as novas soluções, verifica o critério de parada.
         //Aqui existem 3 critérios, um deles será ativado e verficado se é menor que o Épsilon.
@@ -161,13 +180,20 @@ function seidel(epsilon, a, b, criterio_de_parada){
                 novas_solucoes_modulo = novas_solucoes.map((e)=>{return Math.abs(e)});
                 parar = ((math.max(diferenca_modulo)/math.max(novas_solucoes_modulo)) < epsilon)? true : false;
                 solucoes_antigas = novas_solucoes
+                memoria.push(`⚙ Checado critério de parada: <i>${(math.max(diferenca_modulo)/math.max(novas_solucoes_modulo))} é menor que ${epsilon} ?</i>. 
+                <br> Resultado <b>${(parar)? 'Verdadeiro, pare 🛑': 'Falso, continue ✔'}</b>`)
                 break;
+
             case '2':
         }
             
         
     }
-    console.log('solucao', solucoes_antigas)
-        
+
+    memoria.push(`🥳 Solução encontrada: <b>${solucoes_antigas}</b>` )  
+    return{'resultado':solucoes_antigas, memoria}     
 
 }
+
+
+

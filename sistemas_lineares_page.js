@@ -43,9 +43,9 @@ document.getElementById("calcular").addEventListener('click', ()=>{
     metodo['memoria'].forEach(elemento =>{
         span = document.createElement('span')
 
-                Object.keys(elemento).forEach(el =>{
-                    span.innerHTML += elemento[el] + '<br>'
-                })
+                
+            span.innerHTML += elemento + '<br>'
+                
             
 
         resolucaoarea.appendChild(span)
