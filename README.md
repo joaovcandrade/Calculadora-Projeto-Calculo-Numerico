@@ -1,22 +1,20 @@
-# Sistemas-Lineares-e-Metodos-Iterativos
-Calculadora de sistemas lineares e métodos iterativos.
+# Projeto de cálculo numérico
+Calculadora de sistemas lineares, interpolação polinomial e zero de funções.
 
-Ao final do projeto, será gerado um página hospedada no GitHub para acesso à calculadora desenvolvida.
-## Checklist do projeto
-Métodos diretos:
-- [x] Gauss
-  - [x] Passo a passo
-- [x] LU
-  - [x] Passo a passo
+## A calculadora é capaz de calcular:
+Sistema Lineares 
+  - Métodos diretos:
+    -  Eliminação de Gauss
+    - Fatoração LU
 
-Métodos iterativos:
-- [x] Jacobi 
-  - [x] Passo a passo
-- [ ] Gauss-Seidel
-  - [x] Passo a passo
-  
+  - Métodos iterativos:
+    - Gauss-Jacobi 
+    - Gauss-Seidel
+
 Interpolação Polinomial:
-- [x] Lagrange
-  - [x] Passo a passo
-- [x] Newton
-  - [x] Passo a passo
+  -  Lagrange
+  -  Newton
+  
+ Zero de funções:
+  -  Bissecção
+  -  Newton-Raphson
