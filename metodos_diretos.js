@@ -247,7 +247,7 @@ function eliminacao_de_gauss_(a) {
             matriz_aumentada[linha_pivo] = matriz_aumentada[linha_maior_elemento]
             matriz_aumentada[linha_maior_elemento] = linha_aux
             memoria.push(`⚠ Houve pivotamente (pivô com valor zero 0). Linha ${linha_pivo+1} e ${linha_maior_elemento+1} foram invertidas.
-             Nova matriz A: <br> <b>${JSON.stringify(matriz_aumentada).slice(1,-1).split('],[').join('],<br>[')}</b>`)
+            <br> Nova matriz A: <br> <b>${JSON.stringify(matriz_aumentada).slice(1,-1).split('],[').join('],<br>[')}</b>`)
         }
 
         //Adquiro o novo pivô (pivotado ou não)
