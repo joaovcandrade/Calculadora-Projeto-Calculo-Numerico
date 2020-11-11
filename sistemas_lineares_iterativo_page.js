@@ -77,10 +77,10 @@ function create_table(dimension){
                     <tr>
                         ${(()=>{
                             tds= ''
-                            for(j=0; j< dimension; j++){
-                                tds += '<td><input type="text" class="input-number form-control" value=0></td>'
+                            for(j=0; j<dimension; j++){
+                                tds += `<td><input type="text" class="input-number form-control" id='td-${i}-${j}' value=0></td>`
                             }
-                            tds += '<td><input type="text" class="input-number form-control" value=0></td>'
+                            tds += `<td><input type="text" class="input-number form-control" id='td-${i}' value=0></td>`
                             return tds
                         })()}
                     </tr>`
