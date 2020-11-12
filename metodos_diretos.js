@@ -1,5 +1,5 @@
 function fatoracao_lu(A, b) {
-
+    
     //Para manter a precisão vamos manter os valores fracionados
     math.config({
         number: 'Fraction' // Default type of number: 
@@ -7,12 +7,8 @@ function fatoracao_lu(A, b) {
     })
 
     memoria = []
-    matriz_aumentada = A
 
-    math.config({
-        number: 'Fraction' // Default type of number: 
-        // 'number' (default), 'BigNumber', or 'Fraction'
-    })
+    memoria.push(`⚙ Determinamente de A : <br><b>${math.det(A)}</b>`)
 
     matriz_a = A
     memoria.push(`⚙ Criação da matriz A: <br><b>${JSON.stringify(matriz_a).slice(1,-1).split('],[').join('],<br>[')}</b>`)
@@ -67,7 +63,7 @@ function fatoracao_lu(A, b) {
             matriz_a[linha_maior_elemento] = linha_aux
             //memoria.push({"evento": 'Pivotamento de linha', 'memoria': matriz_a})
             memoria.push(`⚠ Houve pivotamente (pivô com valor zero 0). Linha ${linha_pivo+1} e ${linha_maior_elemento+1} foram invertidas.
-             Nova matriz A: <br> <b>${JSON.stringify(matriz_aumentada).slice(1,-1).split('],[').join('],<br>[')}</b>`)
+             Nova matriz A: <br> <b>${JSON.stringify(A).slice(1,-1).split('],[').join('],<br>[')}</b>`)
 
         }
 
@@ -186,33 +182,41 @@ function sistema_de_equacoes_formatado(a, b){
     return expressoes
 }
 
-function eliminacao_de_gauss(a, b) {
-    
-    //Para manter a precisão vamos manter os valores fracionados
+function gera_matriz_aumentada(A, b){
+    math.config({
+        number: 'number' // Default type of number: 
+        // 'number' (default), 'BigNumber', or 'Fraction'
+    })
+    A_aumentada = []
+
+    A.forEach((el, i) =>{
+        el_copy = []
+        el.map((e)=>{el_copy.push(e)})
+        el_copy.push(b[i])
+        A_aumentada.push(el_copy)
+    })
+
     math.config({
         number: 'Fraction' // Default type of number: 
         // 'number' (default), 'BigNumber', or 'Fraction'
     })
-    
-    console.log(a,b)
 
-    //Pega a Matriz A e o vetor b, junta em uma matriz aumentada
-    matriz_aumentada = []
-    a.map((el, index) => {
-        matriz_aumentada.push(el);
-    })
-    for(i=0; i< matriz_aumentada.length;i++){
-        matriz_aumentada[i].push(b[i])
-    }
-    
-    return eliminacao_de_gauss_(matriz_aumentada)
+    return A_aumentada
 }
 
-function eliminacao_de_gauss_(a) {
-    
+function eliminacao_de_gauss (A, b){
+    console.log(A, b)
     memoria = []
-    matriz_aumentada = a
+
+    matriz_aumentada = gera_matriz_aumentada(A, b)
+
+    console.log(A)
+    console.log(matriz_aumentada)
     
+    console.log(math.det(A))
+
+    memoria.push(`⚙ Determinamente de A : <br><b>${math.det(A)}</b>`)
+
 
     memoria.push(`⚙ Criado a matriz A : <br><b>${JSON.stringify(matriz_aumentada).slice(1,-1).split('],[').join('],<br>[')}</b>`)
 
